@@ -25,7 +25,7 @@ const Balance = () => (
 
     <div className="balance__article module__article">
       <h2>Balance</h2>
-      <a href="/"><img src="./img/settings.svg" alt="setting"></img></a>
+      <a href="#"><img src="./img/settings.svg" alt="setting"></img></a>
     </div>
 
     <div className="balance__summ">

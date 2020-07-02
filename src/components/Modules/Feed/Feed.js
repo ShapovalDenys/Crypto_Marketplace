@@ -17,7 +17,7 @@ const Feed = () => (
 
     <div className="module__article">
       <h2>Feed<img src="./img/search.svg" alt="search"></img></h2>
-      <a href="/"><img src="./img/settings.svg" alt="setting"></img></a>
+      <a href="#"><img src="./img/settings.svg" alt="setting"></img></a>
     </div>
 
     <div className="feed__data">

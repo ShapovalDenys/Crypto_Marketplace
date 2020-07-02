@@ -64,7 +64,7 @@ const Rates = () => {
             </img>
         </button>
       </div>
-      <a href="/"><img src="./img/settings.svg" alt="setting"></img></a>
+      <a href="#"><img src="./img/settings.svg" alt="setting"></img></a>
     </div>
 
     {isActiveDropdown &&

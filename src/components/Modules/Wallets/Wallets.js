@@ -7,7 +7,7 @@ const Wallets = () => (
 
     <div className="module__article">
       <h2>Wallets</h2>
-      <a href="/"><img src="./img/settings.svg" alt="setting"></img></a>
+      <a href="#"><img src="./img/settings.svg" alt="setting"></img></a>
     </div>
 
     <div className="wallets__main">
