@@ -1,0 +1,105 @@
+.operations {
+  width: 632px;
+  height: 325px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(134, 140, 144, 0.05);
+  border-radius: 16px;
+  padding: 32px;
+  box-sizing: border-box;
+  margin: 10px;
+  &__form {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__form-input {
+    border-radius: 10px;
+    border: 1px solid #dce0e2;
+    padding-left: 15px;
+    height: 32px;
+  }
+  &__form-label {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+  }
+  &__form-button {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: #fff;
+    padding: 3px 10px;
+    background: rgba(38, 222, 129, 0.6);
+    box-shadow: 0 2px 4px rgba(38, 222, 129, 0.15);
+    border-radius: 16px;
+    border: 1px solid #fff;
+    transition: 0.3s;
+    cursor: pointer;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    &:hover {
+      color: rgba(38, 222, 129, 0.6);
+      background-color: #fff;
+    }
+  }
+  &__transactions {
+    height: 140px;
+    overflow-y: scroll;
+    margin-right: -20px;
+  }
+  &__transaction {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    &-inner {
+      width: 65%;
+      display: flex;
+      justify-content: space-between;
+      margin-right: 20px;
+      & h4 {
+        margin-right: 15px;
+      }
+    }
+    & img {
+      margin-right: 24px;
+    }
+    & span {
+      text-transform: capitalize;
+      display: block;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: #dce0e2;
+    }
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .operations {
+    margin-top: 8vw;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .operations {
+    width: 90%;
+    height: 425px;
+    margin-left: 0;
+    margin-right: 0;
+    &__form {
+      flex-direction: column;
+      align-items: center;
+    }
+    &__form-input {
+      margin-bottom: 15px;
+    }
+    &__transaction {
+      &-inner {
+        width: 85%;
+      }
+    }
+  }
+}

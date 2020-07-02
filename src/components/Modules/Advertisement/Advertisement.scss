@@ -1,0 +1,54 @@
+.advertisement {
+  width: 300px;
+  height: 325px;
+  background: linear-gradient(137.2deg, #373b44 0%, #4286f4 100%), #fff;
+  box-shadow: 2px 6px 24px rgba(66, 134, 244, 0.25);
+  border-radius: 16px;
+  padding: 32px;
+  box-sizing: border-box;
+  color: #fff;
+  position: relative;
+  margin: 10px;
+  & h3 {
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 48px;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.15);
+  }
+  & h4 {
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 48px;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.15);
+  }
+  &__link {
+    display: inline-block;
+    position: absolute;
+    bottom: 32px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: #fff;
+    padding: 10px 20px;
+    border: 1px solid #fff;
+    border-radius: 24px;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    &:hover {
+      color: #4286f4;
+      background-color: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .advertisement {
+    width: 90%;
+    margin-top: 8vw;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
