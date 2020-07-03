@@ -12,7 +12,6 @@ const Module = () => (
   <>
     <section className="module">
       <Balance />
-      <Advertisement />
       <Operations />
     </section>
     <section className="module">

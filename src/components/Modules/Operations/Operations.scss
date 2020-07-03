@@ -1,15 +1,12 @@
+@import "../../../vars.scss";
+
 .operations {
   width: 632px;
-  height: 325px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(134, 140, 144, 0.05);
-  border-radius: 16px;
-  padding: 32px;
-  box-sizing: border-box;
-  margin: 10px;
+  @include mainSectionSize;
   &__form {
     margin-top: 14px;
     display: flex;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
   }
   &__form-input {
@@ -34,11 +31,8 @@
     box-shadow: 0 2px 4px rgba(38, 222, 129, 0.15);
     border-radius: 16px;
     border: 1px solid #fff;
-    transition: 0.3s;
+    @include transitionWebKitDuration;
     cursor: pointer;
-    -webkit-transition: 0.3s;
-    -moz-transition: 0.3s;
-    -o-transition: 0.3s;
     &:hover {
       color: rgba(38, 222, 129, 0.6);
       background-color: #fff;
@@ -50,16 +44,18 @@
     margin-right: -20px;
   }
   &__transaction {
-    display: flex;
+    @include flexWebKit;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
     margin-bottom: 10px;
     &-inner {
       width: 65%;
-      display: flex;
+      @include flexWebKit;
+      -webkit-justify-content: space-between;
       justify-content: space-between;
       margin-right: 20px;
       & h4 {
-        margin-right: 15px;
+        margin-right: 0;
       }
     }
     & img {
@@ -90,7 +86,7 @@
     margin-left: 0;
     margin-right: 0;
     &__form {
-      flex-direction: column;
+      @include flexDirectionWebKit;
       align-items: center;
     }
     &__form-input {
@@ -99,6 +95,16 @@
     &__transaction {
       &-inner {
         width: 85%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .operations {
+    &__transaction {
+      &-inner {
+        font-size: 11px;
       }
     }
   }

@@ -1,17 +1,14 @@
+@import "../../../vars.scss";
+
 .balance {
-  width: 300px;
-  height: 325px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(134, 140, 144, 0.05);
-  border-radius: 16px;
-  padding: 32px;
-  box-sizing: border-box;
-  margin: 10px;
+  width: 632px;
+  @include mainSectionSize;
   &__summ {
     margin: 0 auto;
     margin-top: 16px;
-    display: flex;
+    @include flexWebKit;
     justify-content: space-between;
+    -webkit-justify-content: space-between;
     align-items: center;
     & span {
       font-weight: 600;
@@ -38,12 +35,14 @@
   &__transaction {
     margin-right: 20px;
     margin-top: 8px;
-    display: flex;
+    @include flexWebKit;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
   }
   &__transaction-inner {
     width: 100px;
-    display: flex;
+    @include flexWebKit;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
   }
   &__transaction-price {
@@ -92,7 +91,8 @@
 }
 
 .module__article {
-  display: flex;
+  @include flexWebKit;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
   align-items: center;
   & h2 {
@@ -104,6 +104,12 @@
       height: 15px;
       margin-left: 5px;
     }
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .balance {
+    width: 100%;
   }
 }
 

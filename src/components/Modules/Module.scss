@@ -1,8 +1,11 @@
+@import "../../vars.scss";
+
 .module {
   max-width: 1296px;
   margin: 8vw auto 0;
   margin-top: 10px;
-  display: flex;
+  @include flexWebKit;
+  -webkit-justify-content: space-between;
   justify-content: space-between;
 }
 
@@ -17,7 +20,7 @@
 @media screen and (max-width: 640px) {
   .module {
     margin-top: 0;
-    flex-direction: column;
+    @include flexDirectionWebKit;
     align-items: center;
   }
 }

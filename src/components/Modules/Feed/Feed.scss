@@ -1,19 +1,15 @@
+@import "../../../vars.scss";
+
 .feed {
   width: 632px;
-  height: 325px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(134, 140, 144, 0.05);
-  border-radius: 16px;
-  padding: 32px;
-  box-sizing: border-box;
-  margin: 10px;
+  @include mainSectionSize;
   &__data {
     height: 220px;
     overflow-y: scroll;
     margin-right: -20px;
   }
   &__data-item {
-    display: flex;
+    @include flexWebKit;
   }
 }
 
