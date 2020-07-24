@@ -11,14 +11,14 @@ import Wallets from './Wallets/Wallets';
 const Module = () => (
   <>
     <section className="module">
-      <Balance />
+      {/*<Balance />*/}
       <Operations />
     </section>
-    <section className="module">
-      <Rates />
-      <Feed />
-      <Wallets />
-    </section>
+    {/*<section className="module">
+        <Rates />
+        <Feed />
+        <Wallets />
+      </section>*/}
   </>
 );
 
