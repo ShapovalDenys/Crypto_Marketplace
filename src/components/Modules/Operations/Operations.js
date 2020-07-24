@@ -401,10 +401,6 @@ const Operations = () => {
     });
   }
 
-  const visibleInfo = OPERATIONS_DATA.find(item => item.account_id === currentId);
-  const visibleCampainInfo = visibleInfo && visibleInfo.statistics;
-  const dataRangeFromServer = visibleCampainInfo && visibleCampainInfo[0].date_range[0];
-
   let visibleData = OPERATIONS_DATA;
 
   if (sortBy === "status") {
@@ -449,49 +445,37 @@ const Operations = () => {
     }
   }
 
-  const hiddenInfo = (id) => {
-    setHiddenId(id)
-  }
-
   return (
   <div className="operations">
-
     <div className="module__article">
       <h2>Operations</h2>
       <button className="operations__form-button" onClick={() => {setExpandAll(!expandAll); setCurrentId("")}} type="button">Expand all</button>
     </div>
 
     <form className="operations__form">
-
       <div>
         <label className="operations__form-label" htmlFor="date">DATE FROM: </label>
         <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setFromDate(e)}/>
       </div>
-
       <div>
         <label className="operations__form-label" htmlFor="date">DATE TO: </label>
         <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setToDate(e)}/>
       </div>
-
       <button className="operations__form-button" type="submit" onClick={(event) => submitForm(event)}>Select Data</button>
-
     </form>
 
     <form className="operations__form">
-
-    <div>
-      <label className="operations__form-label" htmlFor="date">RANGE: </label>
-      <select onChange={(e) => setRange(e)} className="operations__form-input" type="date" id="date" name="date">
-        <option>-</option>
-        <option>DAY</option>
-        <option>WEEK</option>
-        <option>MONTH</option>
-      </select>
-    </div>
-
-<button className="operations__form-button" type="submit" onClick={(event) => submitForm(event)}>Select Range</button>
-
-</form>
+      <div>
+        <label className="operations__form-label" htmlFor="date">RANGE: </label>
+        <select onChange={(e) => setRange(e)} className="operations__form-input" type="date" id="date" name="date">
+          <option>-</option>
+          <option>DAY</option>
+          <option>WEEK</option>
+          <option>MONTH</option>
+        </select>
+      </div>
+      <button className="operations__form-button" type="submit" onClick={(event) => submitForm(event)}>Select Range</button>
+    </form>
 
     <div className="balance__line"></div>
 
@@ -507,76 +491,34 @@ const Operations = () => {
     <div className="operations__transactions">
 
       {visibleData.map(item =><React.Fragment key={item.account_name + item.account_id}>
-        <div className={item.account_status === "active" ? "operations__transaction" : "operations__transaction operations__transaction-disabled"} onClick={() => !expandAll ? onHandleClick(item.account_id) : hiddenInfo(item.account_id)}>
-
-            <span>{item.account_name}</span>
-            <span>{item.account_id}</span>
-            <span>{item.account_status}</span>
-            <span>{item.account_spent}</span>
-            <span>{item.account_dis_reason}</span>
-            <span>{item.account_currency}</span>
-
+        <div className={item.account_status === "active" ? "operations__transaction" : "operations__transaction operations__transaction-disabled"} onClick={() => onHandleClick(item.account_id)}>
+          <span>{item.account_name}</span>
+          <span>{item.account_id}</span>
+          <span>{item.account_status}</span>
+          <span>{item.account_spent}</span>
+          <span>{item.account_dis_reason}</span>
+          <span>{item.account_currency}</span>
         </div>
 
-      {currentId === item.account_id &&
+      {(currentId === item.account_id || expandAll === true) &&
       <div className="account-info">
         <h3>Account information: {item.account_name}</h3>
 
         <div className="account-info__inner">
-
-        <div>
-          <span>Campaign_num : {visibleCampainInfo[0].campaign_num}</span>
-          <span>Campaign_name : {visibleCampainInfo[0].campaign_name}</span>
-          <span>Campaign_impressions : {visibleCampainInfo[0].campaign_impressions}</span>
-          <span>Campaign_spent : {visibleCampainInfo[0].campaign_spent}</span>
-          <span>Campaign_frequency : {visibleCampainInfo[0].campaign_frequency}</span>
-          <span>Campaign_clicks : {visibleCampainInfo[0].campaign_clicks}</span>
-          <span>Campaign_unique_clicks : {visibleCampainInfo[0].campaign_unique_clicks}</span>
-          <span>Campaign_ctr : {visibleCampainInfo[0].campaign_ctr}</span>
-          <span>Campaign_unique_ctr : {visibleCampainInfo[0].campaign_unique_ctr}</span>
-          <span>Campaign_inline_clicks : {visibleCampainInfo[0].campaign_inline_clicks}</span>
-          <span>Campaign_inline_clicks_ctr : {visibleCampainInfo[0].campaign_inline_clicks_ctr}</span>
-        </div>
-
-        <div>
-          <span>Account_name : {visibleInfo.account_name}</span>
-          <span>Account_id : {visibleInfo.account_id}</span>
-          <span>Account_spent: {visibleInfo.account_spent}</span>
-          <span>Account_dis_reason: {visibleInfo.account_dis_reason}</span>
-          <span>Account_currency: {visibleInfo.account_currency}</span>
-          <span>Account_card: {visibleInfo.account_card}</span>
-          <span>Date_start: {dataRangeFromServer.date_start}</span>
-          <span>Date_stop: {dataRangeFromServer.date_stop}</span>
-          <div className="account-info__span">
-            <span>Account_status:</span>
-            <span className={visibleInfo.account_status === "disable" ? "account-info__disable" : "account-info__active"}>{visibleInfo.account_status}</span>
+          <div>
+            <span>Campaign_num : {item.statistics[0].campaign_num}</span>
+            <span>Campaign_name : {item.statistics[0].campaign_name}</span>
+            <span>Campaign_impressions : {item.statistics[0].campaign_impressions}</span>
+            <span>Campaign_spent : {item.statistics[0].campaign_spent}</span>
+            <span>Campaign_frequency : {item.statistics[0].campaign_frequency}</span>
+            <span>Campaign_clicks : {item.statistics[0].campaign_clicks}</span>
+            <span>Campaign_unique_clicks : {item.statistics[0].campaign_unique_clicks}</span>
+            <span>Campaign_ctr : {item.statistics[0].campaign_ctr}</span>
+            <span>Campaign_unique_ctr : {item.statistics[0].campaign_unique_ctr}</span>
+            <span>Campaign_inline_clicks : {item.statistics[0].campaign_inline_clicks}</span>
+            <span>Campaign_inline_clicks_ctr : {item.statistics[0].campaign_inline_clicks_ctr}</span>
           </div>
-        </div>
-
-        </div>
-      </div>
-      }
-
-      {expandAll &&
-        <div className="account-info">
-          <h3>Account information: {item.account_name}</h3>
-
-          <div className="account-info__inner">
-
-            <div>
-              <span>Campaign_num : {item.statistics[0].campaign_num}</span>
-              <span>Campaign_name : {item.statistics[0].campaign_name}</span>
-              <span>Campaign_impressions : {item.statistics[0].campaign_impressions}</span>
-              <span>Campaign_spent : {item.statistics[0].campaign_spent}</span>
-              <span>Campaign_frequency : {item.statistics[0].campaign_frequency}</span>
-              <span>Campaign_clicks : {item.statistics[0].campaign_clicks}</span>
-              <span>Campaign_unique_clicks : {item.statistics[0].campaign_unique_clicks}</span>
-              <span>Campaign_ctr : {item.statistics[0].campaign_ctr}</span>
-              <span>Campaign_unique_ctr : {item.statistics[0].campaign_unique_ctr}</span>
-              <span>Campaign_inline_clicks : {item.statistics[0].campaign_inline_clicks}</span>
-              <span>Campaign_inline_clicks_ctr : {item.statistics[0].campaign_inline_clicks_ctr}</span>
-            </div>
-
+          <div>
             <div>
               <span>Account_name : {item.account_name}</span>
               <span>Account_id : {item.account_id}</span>
@@ -592,12 +534,26 @@ const Operations = () => {
               </div>
             </div>
 
+            <form className="operations__form">
+              <div>
+                <label className="operations__form-label" htmlFor="date">DATE FROM: </label>
+                <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setFromDate(e)}/>
+              </div>
+              <div>
+                <label className="operations__form-label" htmlFor="date">DATE TO: </label>
+                <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setToDate(e)}/>
+              </div>
+              <button className="operations__form-button" type="submit" onClick={(event) => submitForm(event)}>Select Data</button>
+            </form>
           </div>
-        </div>}
+        </div>
+      </div>
+      }
 
-        </React.Fragment>
-      )}
-    </div>
+
+    </React.Fragment>
+  )}
+</div>
 
   </div>
 );
