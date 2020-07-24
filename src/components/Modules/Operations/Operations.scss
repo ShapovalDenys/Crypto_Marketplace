@@ -31,16 +31,16 @@
     line-height: 24px;
     color: #fff;
     padding: 3px 10px;
-    background: rgba(38, 222, 129, 0.6);
+    background: rgba(38, 222, 129, 1);
     box-shadow: 0 2px 4px rgba(38, 222, 129, 0.15);
     border-radius: 16px;
     border: 1px solid #fff;
     @include transitionWebKitDuration;
     cursor: pointer;
     &:hover {
-      color: rgba(38, 222, 129, 0.6);
+      color: rgba(38, 222, 129, 1);
       background-color: #fff;
-      border: 1px solid rgba(38, 222, 129, 0.6);
+      border: 1px solid rgba(38, 222, 129, 1);
     }
   }
   &__transactions {
@@ -88,10 +88,10 @@
       }
     }
     &-disabled {
-      background-color: rgba(252, 60, 54, 0.1);
+      background-color: rgba(252, 60, 54, 0.3);
       border-radius: 20px;
       &:hover {
-        background-color: rgba(252, 60, 54, 0.3);
+        background-color: rgba(252, 60, 54, 0.5);
       }
     }
     & img {
@@ -146,6 +146,10 @@
       margin-right: 10px;
     }
   }
+}
+
+.test {
+  display: none;
 }
 
 @media screen and (max-width: 1150px) {

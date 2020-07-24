@@ -102,8 +102,8 @@ const OPERATIONS_DATA = [{
         campaign_inline_clicks:1.21,
         campaign_inline_clicks_ctr:1.01,
         date_range:[{
-            "date_start":"01-01-2020",
-            "date_stop":"01-01-2020"
+            date_start:"01-01-2020",
+            date_stop:"01-01-2020"
           }]
       }]
     },
@@ -128,8 +128,8 @@ const OPERATIONS_DATA = [{
           campaign_inline_clicks:1.21,
           campaign_inline_clicks_ctr:1.01,
           date_range:[{
-              "date_start":"01-01-2020",
-              "date_stop":"01-01-2020"
+              date_start:"01-01-2020",
+              date_stop:"01-01-2020"
             }]
         }]
       },
@@ -154,8 +154,8 @@ const OPERATIONS_DATA = [{
             campaign_inline_clicks:1.21,
             campaign_inline_clicks_ctr:1.01,
             date_range:[{
-                "date_start":"01-01-2020",
-                "date_stop":"01-01-2020"
+                date_start:"01-01-2020",
+                date_stop:"01-01-2020"
               }]
           }]
         },
@@ -180,8 +180,8 @@ const OPERATIONS_DATA = [{
               campaign_inline_clicks:1.21,
               campaign_inline_clicks_ctr:1.01,
               date_range:[{
-                  "date_start":"01-01-2020",
-                  "date_stop":"01-01-2020"
+                  date_start:"01-01-2020",
+                  date_stop:"01-01-2020"
                 }]
             }]
           },
@@ -206,8 +206,8 @@ const OPERATIONS_DATA = [{
                 campaign_inline_clicks:1.21,
                 campaign_inline_clicks_ctr:1.01,
                 date_range:[{
-                    "date_start":"01-01-2020",
-                    "date_stop":"01-01-2020"
+                    date_start:"01-01-2020",
+                    date_stop:"01-01-2020"
                   }]
               }]
             },
@@ -232,8 +232,8 @@ const OPERATIONS_DATA = [{
                   campaign_inline_clicks:1.21,
                   campaign_inline_clicks_ctr:1.01,
                   date_range:[{
-                      "date_start":"01-01-2020",
-                      "date_stop":"01-01-2020"
+                      date_start:"01-01-2020",
+                      date_stop:"01-01-2020"
                     }]
                 }]
               },
@@ -258,8 +258,8 @@ const OPERATIONS_DATA = [{
                     campaign_inline_clicks:1.21,
                     campaign_inline_clicks_ctr:1.01,
                     date_range:[{
-                        "date_start":"01-01-2020",
-                        "date_stop":"01-01-2020"
+                        date_start:"01-01-2020",
+                        date_stop:"01-01-2020"
                       }]
                   }]
                 },
@@ -284,8 +284,8 @@ const OPERATIONS_DATA = [{
                       campaign_inline_clicks:1.21,
                       campaign_inline_clicks_ctr:1.01,
                       date_range:[{
-                          "date_start":"01-01-2020",
-                          "date_stop":"01-01-2020"
+                          date_start:"01-01-2020",
+                          date_stop:"01-01-2020"
                         }]
                     }]
                   },
@@ -310,8 +310,8 @@ const OPERATIONS_DATA = [{
                         campaign_inline_clicks:1.21,
                         campaign_inline_clicks_ctr:1.01,
                         date_range:[{
-                            "date_start":"01-01-2020",
-                            "date_stop":"01-01-2020"
+                            date_start:"01-01-2020",
+                            date_stop:"01-01-2020"
                           }]
                       }]
                     },
@@ -336,8 +336,8 @@ const OPERATIONS_DATA = [{
                           campaign_inline_clicks:1.21,
                           campaign_inline_clicks_ctr:1.01,
                           date_range:[{
-                              "date_start":"01-01-2020",
-                              "date_stop":"01-01-2020"
+                              date_start:"01-01-2020",
+                              date_stop:"01-01-2020"
                             }]
                         }]
                       }
@@ -352,7 +352,10 @@ const Operations = () => {
   const [RegSuccess, setRegSuccess] = useState({});
   const [currentId, setCurrentId] = useState();
   const [sortBy, setSortBy] = useState("");
-  const [isReverse, setIsReverse] = useState("false");
+  const [isReverse, setIsReverse] = useState(false);
+  const [expandAll, setExpandAll] = useState(false);
+  
+  const [hiddenId, setHiddenId] = useState("")
 
   useEffect(() => {
     let d = new Date();
@@ -400,6 +403,7 @@ const Operations = () => {
 
   const visibleInfo = OPERATIONS_DATA.find(item => item.account_id === currentId);
   const visibleCampainInfo = visibleInfo && visibleInfo.statistics;
+  const dataRangeFromServer = visibleCampainInfo && visibleCampainInfo[0].date_range[0];
 
   let visibleData = OPERATIONS_DATA;
 
@@ -445,12 +449,16 @@ const Operations = () => {
     }
   }
 
+  const hiddenInfo = (id) => {
+    setHiddenId(id)
+  }
 
   return (
   <div className="operations">
 
     <div className="module__article">
       <h2>Operations</h2>
+      <button className="operations__form-button" onClick={() => setExpandAll(!expandAll)} type="button">Expand all</button>
     </div>
 
     <form className="operations__form">
@@ -499,7 +507,7 @@ const Operations = () => {
     <div className="operations__transactions">
 
       {visibleData.map(item =><React.Fragment key={item.account_name + item.account_id}>
-        <div className={item.account_status === "active" ? "operations__transaction" : "operations__transaction operations__transaction-disabled"} onClick={() => onHandleClick(item.account_id)}>
+        <div className={item.account_status === "active" ? "operations__transaction" : "operations__transaction operations__transaction-disabled"} onClick={() => !expandAll ? onHandleClick(item.account_id) : hiddenInfo(item.account_id)}>
 
             <span>{item.account_name}</span>
             <span>{item.account_id}</span>
@@ -537,17 +545,56 @@ const Operations = () => {
           <span>Account_dis_reason: {visibleInfo.account_dis_reason}</span>
           <span>Account_currency: {visibleInfo.account_currency}</span>
           <span>Account_card: {visibleInfo.account_card}</span>
-
-            <div className="account-info__span">
-              <span>Account_status:</span>
-              <span className={visibleInfo.account_status === "disable" ? "account-info__disable" : "account-info__active"}>{visibleInfo.account_status}</span>
-            </div>
-
+          <span>Date_start: {dataRangeFromServer.date_start}</span>
+          <span>Date_stop: {dataRangeFromServer.date_stop}</span>
+          <div className="account-info__span">
+            <span>Account_status:</span>
+            <span className={visibleInfo.account_status === "disable" ? "account-info__disable" : "account-info__active"}>{visibleInfo.account_status}</span>
+          </div>
         </div>
 
         </div>
       </div>
       }
+
+      {expandAll &&
+        <div className="account-info">
+          <h3>Account information: {item.account_name}</h3>
+
+          <div className="account-info__inner">
+
+            <div>
+              <span>Campaign_num : {item.statistics[0].campaign_num}</span>
+              <span>Campaign_name : {item.statistics[0].campaign_name}</span>
+              <span>Campaign_impressions : {item.statistics[0].campaign_impressions}</span>
+              <span>Campaign_spent : {item.statistics[0].campaign_spent}</span>
+              <span>Campaign_frequency : {item.statistics[0].campaign_frequency}</span>
+              <span>Campaign_clicks : {item.statistics[0].campaign_clicks}</span>
+              <span>Campaign_unique_clicks : {item.statistics[0].campaign_unique_clicks}</span>
+              <span>Campaign_ctr : {item.statistics[0].campaign_ctr}</span>
+              <span>Campaign_unique_ctr : {item.statistics[0].campaign_unique_ctr}</span>
+              <span>Campaign_inline_clicks : {item.statistics[0].campaign_inline_clicks}</span>
+              <span>Campaign_inline_clicks_ctr : {item.statistics[0].campaign_inline_clicks_ctr}</span>
+            </div>
+
+            <div>
+              <span>Account_name : {item.account_name}</span>
+              <span>Account_id : {item.account_id}</span>
+              <span>Account_spent: {item.account_spent}</span>
+              <span>Account_dis_reason: {item.account_dis_reason}</span>
+              <span>Account_currency: {item.account_currency}</span>
+              <span>Account_card: {item.account_card}</span>
+              <span>Date_start: {item.statistics[0].date_range[0].date_start}</span>
+              <span>Date_stop: {item.statistics[0].date_range[0].date_stop}</span>
+              <div className="account-info__span">
+                <span>Account_status:</span>
+                <span className={item.account_status === "disable" ? "account-info__disable" : "account-info__active"}>{item.account_status}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>}
+
         </React.Fragment>
       )}
     </div>
