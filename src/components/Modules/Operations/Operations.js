@@ -354,7 +354,7 @@ const Operations = () => {
   const [sortBy, setSortBy] = useState("");
   const [isReverse, setIsReverse] = useState(false);
   const [expandAll, setExpandAll] = useState(false);
-  
+
   const [hiddenId, setHiddenId] = useState("")
 
   useEffect(() => {
@@ -458,7 +458,7 @@ const Operations = () => {
 
     <div className="module__article">
       <h2>Operations</h2>
-      <button className="operations__form-button" onClick={() => setExpandAll(!expandAll)} type="button">Expand all</button>
+      <button className="operations__form-button" onClick={() => {setExpandAll(!expandAll); setCurrentId("")}} type="button">Expand all</button>
     </div>
 
     <form className="operations__form">
