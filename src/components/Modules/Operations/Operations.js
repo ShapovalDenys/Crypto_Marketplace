@@ -58,7 +58,7 @@ const OPERATIONS_DATA = [{
   {
 	account_name:"acc3",
 	account_id:"1234569",
-	account_status:"active",
+	account_status:"disable",
 	account_currency:"USD",
 	account_spent:"12",
 	account_card:"*1234 Mastercard",
@@ -136,7 +136,7 @@ const OPERATIONS_DATA = [{
       {
         account_name:"acc2",
         account_id:"143456568",
-        account_status:"active",
+        account_status:"disable",
         account_currency:"USD",
         account_spent:"12",
         account_card:"*1234 Mastercard",
@@ -350,7 +350,9 @@ const Operations = () => {
   const [currentDate, setCurrentDate] = useState("");
   const [dataRange, setDataRange] = useState("-");
   const [RegSuccess, setRegSuccess] = useState({});
-  const [currentId, setCurrentId] = useState()
+  const [currentId, setCurrentId] = useState();
+  const [sortBy, setSortBy] = useState("");
+  const [isReverse, setIsReverse] = useState("false");
 
   useEffect(() => {
     let d = new Date();
@@ -374,7 +376,11 @@ const Operations = () => {
   }
 
   const onHandleClick = (id) => {
-    setCurrentId(id)
+    if (id === currentId) {
+      setCurrentId("0")
+    } else {
+      setCurrentId(id)
+    }
   }
 
   const submitForm = (event) => {
@@ -394,6 +400,51 @@ const Operations = () => {
 
   const visibleInfo = OPERATIONS_DATA.find(item => item.account_id === currentId);
   const visibleCampainInfo = visibleInfo && visibleInfo.statistics;
+
+  let visibleData = OPERATIONS_DATA;
+
+  if (sortBy === "status") {
+    if (isReverse) {
+      visibleData = [...OPERATIONS_DATA].sort((a, b) => a.account_status.localeCompare(b.account_status))
+    }
+    if (!isReverse) {
+      visibleData = [...OPERATIONS_DATA].sort((a, b) => b.account_status.localeCompare(a.account_status))
+    }
+  }
+
+  if (sortBy === "name") {
+    if (isReverse) {
+      visibleData = [...OPERATIONS_DATA].sort((a, b) => a.account_name.localeCompare(b.account_name))
+    }
+    if (!isReverse) {
+      visibleData = [...OPERATIONS_DATA].sort((a, b) => b.account_name.localeCompare(a.account_name))
+    }
+  }
+
+  if (sortBy === "id") {
+    if (isReverse) {
+      visibleData = [...OPERATIONS_DATA].sort((a, b) => a.account_id - b.account_id)
+    }
+    if (!isReverse) {
+      visibleData = [...OPERATIONS_DATA].sort((a, b) => b.account_id - a.account_id)
+    }
+  }
+
+  const Sort = (id) => {
+    if (id === "status") {
+      setSortBy("status")
+      setIsReverse(!isReverse)
+    }
+    if (id === "name") {
+      setSortBy("name")
+      setIsReverse(!isReverse)
+    }
+    if (id === "id") {
+      setSortBy("id")
+      setIsReverse(!isReverse)
+    }
+  }
+
 
   return (
   <div className="operations">
@@ -437,9 +488,9 @@ const Operations = () => {
     <div className="balance__line"></div>
 
     <div className="operations__transactions-title">
-      <span>Account Name</span>
-      <span>ID</span>
-      <span>Статус</span>
+      <span id="name" onClick={(e) => Sort(e.target.id)}>Account Name</span>
+      <span id="id" onClick={(e) => Sort(e.target.id)}>ID</span>
+      <span id="status" onClick={(e) => Sort(e.target.id)}>Статус</span>
       <span>Spend total</span>
       <span>Disable reason</span>
       <span>Currency</span>
@@ -447,8 +498,8 @@ const Operations = () => {
 
     <div className="operations__transactions">
 
-      {OPERATIONS_DATA.map(item =><React.Fragment key={item.account_name + item.account_id}>
-        <div className="operations__transaction" onClick={() => onHandleClick(item.account_id)}>
+      {visibleData.map(item =><React.Fragment key={item.account_name + item.account_id}>
+        <div className={item.account_status === "active" ? "operations__transaction" : "operations__transaction operations__transaction-disabled"} onClick={() => onHandleClick(item.account_id)}>
 
             <span>{item.account_name}</span>
             <span>{item.account_id}</span>
@@ -458,34 +509,48 @@ const Operations = () => {
             <span>{item.account_currency}</span>
 
         </div>
-        <div className="balance__line"></div>
+
+      {currentId === item.account_id &&
+      <div className="account-info">
+        <h3>Account information: {item.account_name}</h3>
+
+        <div className="account-info__inner">
+
+        <div>
+          <span>Campaign_num : {visibleCampainInfo[0].campaign_num}</span>
+          <span>Campaign_name : {visibleCampainInfo[0].campaign_name}</span>
+          <span>Campaign_impressions : {visibleCampainInfo[0].campaign_impressions}</span>
+          <span>Campaign_spent : {visibleCampainInfo[0].campaign_spent}</span>
+          <span>Campaign_frequency : {visibleCampainInfo[0].campaign_frequency}</span>
+          <span>Campaign_clicks : {visibleCampainInfo[0].campaign_clicks}</span>
+          <span>Campaign_unique_clicks : {visibleCampainInfo[0].campaign_unique_clicks}</span>
+          <span>Campaign_ctr : {visibleCampainInfo[0].campaign_ctr}</span>
+          <span>Campaign_unique_ctr : {visibleCampainInfo[0].campaign_unique_ctr}</span>
+          <span>Campaign_inline_clicks : {visibleCampainInfo[0].campaign_inline_clicks}</span>
+          <span>Campaign_inline_clicks_ctr : {visibleCampainInfo[0].campaign_inline_clicks_ctr}</span>
+        </div>
+
+        <div>
+          <span>Account_name : {visibleInfo.account_name}</span>
+          <span>Account_id : {visibleInfo.account_id}</span>
+          <span>Account_spent: {visibleInfo.account_spent}</span>
+          <span>Account_dis_reason: {visibleInfo.account_dis_reason}</span>
+          <span>Account_currency: {visibleInfo.account_currency}</span>
+          <span>Account_card: {visibleInfo.account_card}</span>
+
+            <div className="account-info__span">
+              <span>Account_status:</span>
+              <span className={visibleInfo.account_status === "disable" ? "account-info__disable" : "account-info__active"}>{visibleInfo.account_status}</span>
+            </div>
+
+        </div>
+
+        </div>
+      </div>
+      }
         </React.Fragment>
       )}
     </div>
-
-    <div className="account-info">
-      <h3>Account information</h3>
-
-      {currentId &&
-      <>
-      <span>Account_name : {visibleInfo.account_name}</span>
-      <span>Account_id : {visibleInfo.account_id}</span>
-      <span>Account_status: {visibleInfo.account_status}</span>
-      <span>Campaign_num : {visibleCampainInfo[0].campaign_num}</span>
-      <span>Campaign_name : {visibleCampainInfo[0].campaign_name}</span>
-      <span>Campaign_impressions : {visibleCampainInfo[0].campaign_impressions}</span>
-      <span>Campaign_spent : {visibleCampainInfo[0].campaign_spent}</span>
-      <span>Campaign_frequency : {visibleCampainInfo[0].campaign_frequency}</span>
-      <span>Campaign_clicks : {visibleCampainInfo[0].campaign_clicks}</span>
-      <span>Campaign_unique_clicks : {visibleCampainInfo[0].campaign_unique_clicks}</span>
-      <span>Campaign_ctr : {visibleCampainInfo[0].campaign_ctr}</span>
-      <span>Campaign_unique_ctr : {visibleCampainInfo[0].campaign_unique_ctr}</span>
-      <span>Campaign_inline_clicks : {visibleCampainInfo[0].campaign_inline_clicks}</span>
-      <span>Campaign_inline_clicks_ctr : {visibleCampainInfo[0].campaign_inline_clicks_ctr}</span>
-      </>
-      }
-    </div>
-
 
   </div>
 );
