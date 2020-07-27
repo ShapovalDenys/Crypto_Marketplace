@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import './Header.scss';
 import './hamburgers.css';
@@ -14,22 +15,22 @@ const Header = () => {
       <nav className="nav">
         <ul className="nav-list">
           <li>
-            <a href="/" className="nav__link-logo"><img src="./img/wallet.svg" alt="wallet"></img>CryptoWallet</a>
+            <Link to="/" className="nav__link-logo"><img src="./img/wallet.svg" alt="wallet"></img>CryptoWallet</Link>
           </li>
           <li>
-            <a href="/" className="nav__link">Dashboard</a>
+            <Link to="/dashboard" className="nav__link">Dashboard</Link>
           </li>
           <li>
-            <a href="/" className="nav__link">Market</a>
+            <Link to="/market" className="nav__link">Market</Link>
           </li>
           <li>
-            <a href="/" className="nav__link">Trends</a>
+            <Link to="/trends" className="nav__link">Trends</Link>
           </li>
         </ul>
       </nav>
 
       <div className="user-menu">
-        <a href="/" className="user-menu__link"><img className="user-menu__img" src="./img/user.svg" alt="user"></img></a>
+        <Link to="/login" className="user-menu__link"><img className="user-menu__img" src="./img/user.svg" alt="user"></img></Link>
         <div className="user-menu__mobile-menu">
           <button
             className={isActiveMenu ? "hamburger hamburger--squeeze is-active" : "hamburger hamburger--squeeze"}
@@ -47,13 +48,13 @@ const Header = () => {
     <div className={isActiveMenu ? "mobile mobile__active" : "mobile"}>
           <ul>
             <li>
-              <a href="/" className="mobile__link">Dashboard</a>
+              <Link to="/dashboard" className="mobile__link">Dashboard</Link>
             </li>
             <li>
-              <a href="/" className="mobile__link">Market</a>
+              <Link to="/market" className="mobile__link">Market</Link>
             </li>
             <li>
-              <a href="/" className="mobile__link">Trends</a>
+            <Link to="/trends" className="mobile__link">Trends</Link>
             </li>
           </ul>
         </div>

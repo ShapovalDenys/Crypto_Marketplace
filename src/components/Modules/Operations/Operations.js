@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { isLogin } from '../../Store/index';
 
 import './Operations.scss';
+import OperationsItem from './OperationsItem';
 
 const OPERATIONS_DATA = [{
 	account_name:"acc1",
@@ -345,17 +348,18 @@ const OPERATIONS_DATA = [{
 
 const Operations = () => {
 
-  const [toDate, setToDateState] = useState("");
-  const [fromDate, setFromDateState] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const [dataRange, setDataRange] = useState("-");
-  const [RegSuccess, setRegSuccess] = useState({});
+  const [Data, setData] = useState(OPERATIONS_DATA);
   const [currentId, setCurrentId] = useState();
   const [sortBy, setSortBy] = useState("");
   const [isReverse, setIsReverse] = useState(false);
   const [expandAll, setExpandAll] = useState(false);
 
-  const [hiddenId, setHiddenId] = useState("")
+  const login = useSelector(isLogin);
+  console.log(login);
 
   useEffect(() => {
     let d = new Date();
@@ -366,26 +370,6 @@ const Operations = () => {
     setCurrentDate(year + "-" + `${month > 9 ? month : "0" + month}` + "-" + `${day > 9 ? day : "0" + day}`)
   }, [])
 
-  const setToDate = (e) => {
-    setToDateState(e.target.value);
-  }
-
-  const setFromDate = (e) => {
-    setFromDateState(e.target.value);
-  }
-
-  const setRange = (e) => {
-    setDataRange(e.target.value);
-  }
-
-  const onHandleClick = (id) => {
-    if (id === currentId) {
-      setCurrentId("0")
-    } else {
-      setCurrentId(id)
-    }
-  }
-
   const submitForm = (event) => {
     event.preventDefault();
 
@@ -394,39 +378,39 @@ const Operations = () => {
     axios.post('/send.php', DATA)
     .then(function (response) {
       console.log(response.json())
-      setRegSuccess(response.json())
+      setData(response.json())
     })
     .catch(function (error) {
       console.log(error);
     });
   }
 
-  let visibleData = OPERATIONS_DATA;
+  let visibleData = Data;
 
   if (sortBy === "status") {
     if (isReverse) {
-      visibleData = [...OPERATIONS_DATA].sort((a, b) => a.account_status.localeCompare(b.account_status))
+      visibleData = [...Data].sort((a, b) => a.account_status.localeCompare(b.account_status))
     }
     if (!isReverse) {
-      visibleData = [...OPERATIONS_DATA].sort((a, b) => b.account_status.localeCompare(a.account_status))
+      visibleData = [...Data].sort((a, b) => b.account_status.localeCompare(a.account_status))
     }
   }
 
   if (sortBy === "name") {
     if (isReverse) {
-      visibleData = [...OPERATIONS_DATA].sort((a, b) => a.account_name.localeCompare(b.account_name))
+      visibleData = [...Data].sort((a, b) => a.account_name.localeCompare(b.account_name))
     }
     if (!isReverse) {
-      visibleData = [...OPERATIONS_DATA].sort((a, b) => b.account_name.localeCompare(a.account_name))
+      visibleData = [...Data].sort((a, b) => b.account_name.localeCompare(a.account_name))
     }
   }
 
   if (sortBy === "id") {
     if (isReverse) {
-      visibleData = [...OPERATIONS_DATA].sort((a, b) => a.account_id - b.account_id)
+      visibleData = [...Data].sort((a, b) => a.account_id - b.account_id)
     }
     if (!isReverse) {
-      visibleData = [...OPERATIONS_DATA].sort((a, b) => b.account_id - a.account_id)
+      visibleData = [...Data].sort((a, b) => b.account_id - a.account_id)
     }
   }
 
@@ -455,11 +439,11 @@ const Operations = () => {
     <form className="operations__form">
       <div>
         <label className="operations__form-label" htmlFor="date">DATE FROM: </label>
-        <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setFromDate(e)}/>
+        <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setFromDate(e.target.value)}/>
       </div>
       <div>
         <label className="operations__form-label" htmlFor="date">DATE TO: </label>
-        <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setToDate(e)}/>
+        <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setToDate(e.target.value)}/>
       </div>
       <button className="operations__form-button" type="submit" onClick={(event) => submitForm(event)}>Select Data</button>
     </form>
@@ -467,7 +451,7 @@ const Operations = () => {
     <form className="operations__form">
       <div>
         <label className="operations__form-label" htmlFor="date">RANGE: </label>
-        <select onChange={(e) => setRange(e)} className="operations__form-input" type="date" id="date" name="date">
+        <select onChange={(e) => setDataRange(e.target.value)} className="operations__form-input" type="date" id="date" name="date">
           <option>-</option>
           <option>DAY</option>
           <option>WEEK</option>
@@ -489,71 +473,17 @@ const Operations = () => {
     </div>
 
     <div className="operations__transactions">
-
-      {visibleData.map(item =><React.Fragment key={item.account_name + item.account_id}>
-        <div className={item.account_status === "active" ? "operations__transaction" : "operations__transaction operations__transaction-disabled"} onClick={() => onHandleClick(item.account_id)}>
-          <span>{item.account_name}</span>
-          <span>{item.account_id}</span>
-          <span>{item.account_status}</span>
-          <span>{item.account_spent}</span>
-          <span>{item.account_dis_reason}</span>
-          <span>{item.account_currency}</span>
-        </div>
-
-      {(currentId === item.account_id || expandAll === true) &&
-      <div className="account-info">
-        <h3>Account information: {item.account_name}</h3>
-
-        <div className="account-info__inner">
-          <div>
-            <span>Campaign_num : {item.statistics[0].campaign_num}</span>
-            <span>Campaign_name : {item.statistics[0].campaign_name}</span>
-            <span>Campaign_impressions : {item.statistics[0].campaign_impressions}</span>
-            <span>Campaign_spent : {item.statistics[0].campaign_spent}</span>
-            <span>Campaign_frequency : {item.statistics[0].campaign_frequency}</span>
-            <span>Campaign_clicks : {item.statistics[0].campaign_clicks}</span>
-            <span>Campaign_unique_clicks : {item.statistics[0].campaign_unique_clicks}</span>
-            <span>Campaign_ctr : {item.statistics[0].campaign_ctr}</span>
-            <span>Campaign_unique_ctr : {item.statistics[0].campaign_unique_ctr}</span>
-            <span>Campaign_inline_clicks : {item.statistics[0].campaign_inline_clicks}</span>
-            <span>Campaign_inline_clicks_ctr : {item.statistics[0].campaign_inline_clicks_ctr}</span>
-          </div>
-          <div>
-            <div>
-              <span>Account_name : {item.account_name}</span>
-              <span>Account_id : {item.account_id}</span>
-              <span>Account_spent: {item.account_spent}</span>
-              <span>Account_dis_reason: {item.account_dis_reason}</span>
-              <span>Account_currency: {item.account_currency}</span>
-              <span>Account_card: {item.account_card}</span>
-              <span>Date_start: {item.statistics[0].date_range[0].date_start}</span>
-              <span>Date_stop: {item.statistics[0].date_range[0].date_stop}</span>
-              <div className="account-info__span">
-                <span>Account_status:</span>
-                <span className={item.account_status === "disable" ? "account-info__disable" : "account-info__active"}>{item.account_status}</span>
-              </div>
-            </div>
-
-            <form className="operations__form">
-              <div>
-                <label className="operations__form-label" htmlFor="date">DATE FROM: </label>
-                <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setFromDate(e)}/>
-              </div>
-              <div>
-                <label className="operations__form-label" htmlFor="date">DATE TO: </label>
-                <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setToDate(e)}/>
-              </div>
-              <button className="operations__form-button" type="submit" onClick={(event) => submitForm(event)}>Select Data</button>
-            </form>
-          </div>
-        </div>
-      </div>
-      }
-
-
-    </React.Fragment>
-  )}
-</div>
+      {visibleData.map(item =>
+        <OperationsItem
+          key={item.account_name + item.account_id}
+          item={item}
+          currentId={currentId}
+          setCurrentId={setCurrentId}
+          expandAll={expandAll}
+          currentDate={currentDate}
+        />
+      )}
+    </div>
 
   </div>
 );

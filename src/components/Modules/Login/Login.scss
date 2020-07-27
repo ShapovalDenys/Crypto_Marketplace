@@ -1,0 +1,39 @@
+@import "../../../vars.scss";
+
+.login {
+  width: 40%;
+  margin: 0 auto;
+  height: 100%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(134, 140, 144, 0.05);
+  border-radius: 16px;
+  padding: 32px;
+  box-sizing: border-box;
+  &__article {
+    text-align: center;
+  }
+  &__input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    height: 35px;
+    border-radius: 10px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border: 1px solid #f2911b;
+  }
+  &__button {
+    height: 35px;
+    display: block;
+    width: 40%;
+    margin: 0 auto;
+    border: 1px solid #f2911b;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+    @include transitionWebKitDuration;
+    &:hover {
+      background-color: #f2911b;
+    }
+  }
+}

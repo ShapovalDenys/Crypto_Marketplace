@@ -11,6 +11,12 @@
     justify-content: space-between;
     margin-bottom: 15px;
   }
+  &__form-item {
+    width: 400px;
+  }
+  &__form-button-item {
+    width: 200px;
+  }
   &__form-input {
     border-radius: 10px;
     border: 1px solid #dce0e2;
