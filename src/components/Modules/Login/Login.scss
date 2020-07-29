@@ -36,4 +36,13 @@
       background-color: #f2911b;
     }
   }
+  &__button-logout {
+    margin-top: 15px;
+  }
+  &__error {
+    color: red;
+  }
+  &__article-success {
+    color: green;
+  }
 }

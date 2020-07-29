@@ -4,25 +4,27 @@ import { createStore, AnyAction } from 'redux';
 const LOGIN = 'LOGIN';
 
 // Action creators - a function returning an action object
-export const loginSuccess = () => ({ type: LOGIN });
+export const loginSuccess = ( response = {}) => ({ type: LOGIN, response });
 
 // Selectors - a function receiving Redux state and returning some data from it
-export const isLogin = (state: RootState) => state.login;
+export const getResponse = (state: RootState) => state.response;
 
 // Initial state
 export type RootState = {
-  login: boolean;
+  response: object;
 };
 
 const initialState: RootState = {
-  login: false,
+  response: {}
 };
 
 // rootReducer - this function is called after dispatching an action
 const rootReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case LOGIN:
-      return { ...state, login: true };
+      return { ...state,
+        response: action.response,
+      };
 
     default:
       return state;

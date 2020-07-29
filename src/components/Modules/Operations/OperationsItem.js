@@ -46,7 +46,6 @@ const OperationsItem = ({ item, currentId, setCurrentId, expandAll, currentDate 
     }
   }, [expandAll])
 
-
   return (
     <>
     <div className={visibleInfo.account_status === "active" ? "operations__transaction" : "operations__transaction operations__transaction-disabled"} onClick={() => HandleChange(item.account_id)}>
@@ -90,8 +89,6 @@ const OperationsItem = ({ item, currentId, setCurrentId, expandAll, currentDate 
             <span>Account_dis_reason: {visibleInfo.account_dis_reason}</span>
             <span>Account_currency: {visibleInfo.account_currency}</span>
             <span>Account_card: {visibleInfo.account_card}</span>
-            <span>Date_start: {visibleInfo.statistics[0].date_range[0].date_start}</span>
-            <span>Date_stop: {visibleInfo.statistics[0].date_range[0].date_stop}</span>
             <div className="account-info__span">
             <span>Account_status:</span>
             <span className={visibleInfo.account_status === "disable" ? "account-info__disable" : "account-info__active"}>{visibleInfo.account_status}</span>
@@ -101,11 +98,11 @@ const OperationsItem = ({ item, currentId, setCurrentId, expandAll, currentDate 
         <form className="operations__form operations__form-item">
           <div>
             <label className="operations__form-label" htmlFor="date">DATE FROM: </label>
-            <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setFromDateItem(e.target.value)}/>
+            <input className="operations__form-input" value={visibleInfo.statistics[0].date_range[0].date_start.split("-").reverse().join("-")} type="date" id="date" name="date" max={currentDate} onChange={(e) => setFromDateItem(e.target.value)}/>
           </div>
           <div>
             <label className="operations__form-label" htmlFor="date">DATE TO: </label>
-            <input className="operations__form-input" type="date" id="date" name="date" max={currentDate} onChange={(e) => setToDateItem(e.target.value)}/>
+            <input className="operations__form-input" value={visibleInfo.statistics[0].date_range[0].date_stop.split("-").reverse().join("-")} type="date" id="date" name="date" max={currentDate} onChange={(e) => setToDateItem(e.target.value)}/>
           </div>
           <button className="operations__form-button operations__form-button-item" type="submit" onClick={(event) => submitFormItem(event)}>Select Data</button>
         </form>
