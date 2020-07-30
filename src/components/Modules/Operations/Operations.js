@@ -256,10 +256,10 @@ const Operations = () => {
 
 
     let DATA = {};
-    if (reduxResponse.hasOwnProperty("sessid")) {
+    if (reduxResponse !== null && reduxResponse.hasOwnProperty("sessid")) {
       DATA = JSON.stringify(reduxResponse)
     }
-    if (localResponse.hasOwnProperty("sessid")) {
+    if (localResponse !== null && localResponse.hasOwnProperty("sessid")) {
       DATA = JSON.stringify(localResponse)
     }
     axios.post('/check.php', DATA)
