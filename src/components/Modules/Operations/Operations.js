@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import './Operations.scss';
 import OperationsItem from './OperationsItem';
+import Login from '../Login/Login';
 
 const OPERATIONS_DATA = [{
 	account_name:"acc1",
@@ -229,23 +230,29 @@ const Operations = () => {
   const [isReverse, setIsReverse] = useState(false);
   const [expandAll, setExpandAll] = useState(false);
   const history = useHistory();
-  const [checkData, setCheckData] = useState();
+  const [checkData, setCheckData] = useState(false);
 
 
   const reduxResponse = useSelector(getResponse);
   const localResponse = JSON.parse(localStorage.getItem('Response'));
 
-  useEffect(() => {
+  /*useEffect(() => {
   if (checkData === false) {
     history.push("/login")
   }
-  }, [checkData])
+  }, [checkData])*/
 
-  if ((reduxResponse !== null && !reduxResponse.hasOwnProperty("sessid"))
+  /*if ((reduxResponse !== null && !reduxResponse.hasOwnProperty("sessid"))
   && (localResponse !== null && !localResponse.hasOwnProperty("sessid"))
   || (reduxResponse === null && localResponse === null)) {
     history.push("/login")
-  }
+  }*/
+
+  useEffect(() => {
+    if ((reduxResponse !== null && reduxResponse.hasOwnProperty("sessid")) || (localResponse !== null && localResponse.hasOwnProperty("sessid"))) {
+      setCheckData(true)
+    }
+  }, [reduxResponse, localResponse])
 
   useEffect(() => {
     let d = new Date();
@@ -255,6 +262,9 @@ const Operations = () => {
     // eslint-disable-next-line
     setCurrentDate(year + "-" + `${month > 9 ? month : "0" + month}` + "-" + `${day > 9 ? day : "0" + day}`)
 
+    if (reduxResponse.hasOwnProperty("sessid") || localResponse.hasOwnProperty("sessid")) {
+      setCheckData(true)
+    }
 
     let DATA = {};
     if (reduxResponse !== null && reduxResponse.hasOwnProperty("sessid")) {
@@ -271,12 +281,11 @@ const Operations = () => {
         setCheckData(true)
       } else {
         setCheckData(false);
-        history.push("/login")
       }
     })
     .catch(function (error) {
       console.log(error);
-      setCheckData(true)
+      /*setCheckData(false)*/
     });
 
   }, [])
@@ -397,7 +406,7 @@ const Operations = () => {
 
       </div>
     )
-  } else return <div className="operations"></div>
+  } else return <Login/>
 }
 
 export default Operations;
