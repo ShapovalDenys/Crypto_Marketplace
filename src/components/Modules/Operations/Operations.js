@@ -231,6 +231,7 @@ const Operations = () => {
   const history = useHistory();
   const [checkData, setCheckData] = useState();
 
+
   const reduxResponse = useSelector(getResponse);
   const localResponse = JSON.parse(localStorage.getItem('Response'));
 
@@ -240,7 +241,7 @@ const Operations = () => {
   }
   }, [checkData])
 
-  if (!reduxResponse.sessid && !localResponse.sessid) {
+  if (!reduxResponse.hasOwnProperty("sessid") && !localResponse.hasOwnProperty("sessid")) {
     history.push("/login")
   }
 
@@ -254,10 +255,10 @@ const Operations = () => {
 
 
     let DATA = {};
-    if (reduxResponse.sessid) {
+    if (reduxResponse.hasOwnProperty("sessid")) {
       DATA = JSON.stringify(reduxResponse)
     }
-    if (localResponse.sessid) {
+    if (localResponse.hasOwnProperty("sessid")) {
       DATA = JSON.stringify(localResponse)
     }
     axios.post('/check.php', DATA)
