@@ -9,13 +9,16 @@ import Rates from './Rates/Rates';
 import Feed from './Feed/Feed';
 import Wallets from './Wallets/Wallets';
 import Login from './Login/Login';
+import Home from './Home/Home';
 
 const Module = () => (
   <section className="module">
   <Switch>
       {/*<Balance />*/}
-      <Route path="/" exact component={Operations} />
+      <Route path="/" exact component={Home} />
       <Route path="/dashboard" exact component={Operations} />
+      <Route path="/market" exact component={Operations} />
+      <Route path="/trends" exact component={Operations} />
       <Route path="/login" exact component={Login} />
       <Redirect to="/"/>
     {/*<section className="module">
