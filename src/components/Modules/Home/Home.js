@@ -4,9 +4,10 @@ import './Home.scss';
 
 const Home = () => {
 
-
   return (
-    <h2>Home Page</h2>
+    <div className="homepage">
+      <h2>Home Page</h2>
+    </div>
   )
 }
 

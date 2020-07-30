@@ -45,4 +45,21 @@
   &__article-success {
     color: green;
   }
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__registration-link {
+    color: black;
+    @include transitionWebKitDuration;
+    &:hover {
+      color: #f2911b;
+    }
+    &:active {
+      color: black;
+    }
+  }
+  &__checkbox {
+    cursor: pointer;
+  }
 }

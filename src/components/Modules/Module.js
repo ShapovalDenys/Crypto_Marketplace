@@ -10,6 +10,7 @@ import Feed from './Feed/Feed';
 import Wallets from './Wallets/Wallets';
 import Login from './Login/Login';
 import Home from './Home/Home';
+import Registration from './Registration/Registration';
 
 const Module = () => (
   <section className="module">
@@ -20,6 +21,7 @@ const Module = () => (
       <Route path="/market" exact component={Operations} />
       <Route path="/trends" exact component={Operations} />
       <Route path="/login" exact component={Login} />
+      <Route path="/registration" exact component={Registration} />
       <Redirect to="/"/>
     {/*<section className="module">
         <Rates />

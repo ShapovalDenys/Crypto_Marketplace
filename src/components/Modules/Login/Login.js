@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getResponse, loginSuccess } from '../../Store/index';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import './Login.scss';
@@ -74,8 +75,15 @@ const Login = () => {
 
       <input onChange={(e) => setPassword(e.target.value)} className="login__input" type="password" placeholder="Password" required />
 
-      <input id="check" type="checkbox" value={isRemember} onChange={() => setIsRemember(!isRemember)}></input>
-      <label htmlFor="check"> Remember Me</label>
+      <div className="login__inner">
+
+        <div>
+          <input className="login__checkbox" id="check" type="checkbox" value={isRemember} onChange={() => setIsRemember(!isRemember)}></input>
+          <label className="login__checkbox" htmlFor="check"> Remember Me</label>
+        </div>
+
+        <Link to="/registration" className="login__registration-link">Registration</Link>
+      </div>
 
       <button className="login__button" type="submit">Login</button>
     </form>
