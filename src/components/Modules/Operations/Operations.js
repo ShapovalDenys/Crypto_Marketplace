@@ -241,7 +241,8 @@ const Operations = () => {
   }
   }, [checkData])
 
-  if (!reduxResponse.hasOwnProperty("sessid") && !localResponse.hasOwnProperty("sessid")) {
+  if ( (reduxResponse !== null && !reduxResponse.hasOwnProperty("sessid"))
+  && (localResponse !== null && !localResponse.hasOwnProperty("sessid"))) {
     history.push("/login")
   }
 
