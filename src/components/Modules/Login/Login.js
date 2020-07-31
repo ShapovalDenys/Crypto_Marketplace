@@ -16,6 +16,7 @@ const Login = () => {
   const [dataFromServer, setDataFromServer] = useState(JSON.parse(localStorage.getItem('Response')) || reduxResponse);
   const [errorLogin, setErrorLogin] = useState(false);
   const [onClickSubmit, setOnClickSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (dataFromServer.sessid) {
@@ -38,6 +39,7 @@ const Login = () => {
   const onClickLogin = (event) => {
     event.preventDefault();
     setOnClickSubmit(true);
+    setIsLoading(true);
     const DATA = JSON.stringify({login: login, password: password})
     axios.post('/login.php', DATA)
     .then(function (response) {
@@ -46,7 +48,10 @@ const Login = () => {
     })
     .catch(function (error) {
       console.log(error);
-      setDataFromServer({sessid: "test-test-test", login:"test"})
+      setTimeout(() => {
+        setDataFromServer({sessid: "test-test-test", login:"test"})
+        setIsLoading(false)
+      }, 500)
     });
   }
 
@@ -85,7 +90,14 @@ const Login = () => {
         <Link to="/registration" className="login__registration-link">Registration</Link>
       </div>
 
+
+      {isLoading
+      ?
+      <div className="spinner"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+      :
       <button className="login__button" type="submit">Login</button>
+      }
+
     </form>
   )
 }
