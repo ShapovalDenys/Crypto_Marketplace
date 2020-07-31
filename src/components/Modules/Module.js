@@ -11,6 +11,7 @@ import Wallets from './Wallets/Wallets';
 import Login from './Login/Login';
 import Home from './Home/Home';
 import Registration from './Registration/Registration';
+import CheckSsid from './CheckSsid/CheckSsid';
 
 const Module = () => (
   <section className="module">
@@ -19,7 +20,7 @@ const Module = () => (
       <Route path="/" exact component={Home} />
       <Route path="/dashboard" exact component={Operations} />
       <Route path="/market" exact component={Operations} />
-      <Route path="/trends" exact component={Operations} />
+      <Route path="/trends" exact component={CheckSsid} />
       <Route path="/login" exact component={Login} />
       <Route path="/registration" exact component={Registration} />
       <Redirect to="/"/>

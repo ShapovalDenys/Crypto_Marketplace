@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getResponse } from '../Store/index';
 
 import './Header.scss';
 import './hamburgers.css';
@@ -7,6 +9,17 @@ import './hamburgers.css';
 const Header = () => {
 
   const [isActiveMenu, setIsActiveMenu] = useState(false);
+  const reduxResponse = useSelector(getResponse);
+  const localResponse = JSON.parse(localStorage.getItem('Response'));
+  const [name, setName] = useState("")
+
+  useEffect(() => {
+    if ((reduxResponse !== null && reduxResponse.hasOwnProperty("login")) || (localResponse !== null && localResponse.hasOwnProperty("login"))) {
+      setName(reduxResponse.login || localResponse.login)
+    } else {
+      setName("")
+    }
+  }, [reduxResponse, localResponse])
 
   return (
   <header className="header">
@@ -28,8 +41,8 @@ const Header = () => {
           </li>
         </ul>
       </nav>
-
       <div className="user-menu">
+      <h4>{name && `hello, ${name} !`}</h4>
         <Link to="/login" className="user-menu__link"><img className="user-menu__img" src="./img/user.svg" alt="user"></img></Link>
         <div className="user-menu__mobile-menu">
           <button
