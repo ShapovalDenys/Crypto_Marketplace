@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { getResponse } from '../../Store/index';
 
 const CheckSsid = () => {
-  const [checkData, setCheckData] = useState(false);
-  const reduxResponse = useSelector(getResponse);
+  const [checkData, setCheckData] = useState(false)
+  const reduxResponse = useSelector(getResponse)
   const localResponse = JSON.parse(localStorage.getItem('Response'));
 
   useEffect(() => {
