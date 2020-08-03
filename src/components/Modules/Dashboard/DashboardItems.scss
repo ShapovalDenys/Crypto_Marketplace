@@ -1,0 +1,6 @@
+@import "../../../vars.scss";
+
+.dashboard {
+  width: 100%;
+  @include mainSectionSize;
+}
