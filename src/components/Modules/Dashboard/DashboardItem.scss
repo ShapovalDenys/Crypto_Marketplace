@@ -6,6 +6,7 @@
 }
 
 .dashboardItem {
+  position: relative;
   &__settings {
     width: 130px;
     display: flex;
@@ -29,5 +30,49 @@
         background: rgba(38, 222, 129, 1);
       }
     }
+  }
+  &___form {
+    margin: 0 auto;
+    display: flex;
+    width: 750px;
+    justify-content: space-between;
+    &-inner {
+      position: relative;
+      width: 560px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      & input {
+        width: 340px;
+        height: 25px;
+        padding: 0 10px;
+        border-radius: 15px;
+        border: 1px solid rgba(38, 222, 129, 1);
+      }
+    }
+    &-select {
+      padding: 0 10px;
+      width: 363px;
+      height: 25px;
+      border-radius: 15px;
+      border: 1px solid rgba(38, 222, 129, 1);
+    }
+    &-button {
+      height: 25px;
+      padding: 0 10px;
+      background-color: rgba(38, 222, 129, 0.5);
+      border-radius: 10px;
+      cursor: pointer;
+      @include transitionWebKitDuration;
+      &:hover {
+        background: rgba(38, 222, 129, 1);
+      }
+    }
+  }
+  &__message {
+    position: absolute;
+    right: -190px;
+    display: inline-block;
+    width: 180px;
   }
 }

@@ -43,7 +43,6 @@ const DashboardItems = () => {
         <span id="status">Token</span>
         <span>Session_name</span>
         <span>Modem</span>
-        <span>Media Buyer</span>
         <span>Settings</span>
       </div>
 
