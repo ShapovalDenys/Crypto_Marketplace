@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, Router } from 'react-router-dom';
 
 import './Module.scss'
 import Balance from './Balance/Balance';
@@ -16,8 +16,7 @@ import Dashboard from './Dashboard/Dashboard';
 
 const Module = () => (
   <section className="module">
-  <Switch>
-      {/*<Balance />*/}
+    <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/dashboard" exact component={Dashboard} />
       <Route path="/market" exact component={Dashboard} />
@@ -26,11 +25,6 @@ const Module = () => (
       <Route path="/login" exact component={Login} />
       <Route path="/registration" exact component={Registration} />
       <Redirect to="/"/>
-    {/*<section className="module">
-        <Rates />
-        <Feed />
-        <Wallets />
-      </section>*/}
   </Switch>
   </section>
 );

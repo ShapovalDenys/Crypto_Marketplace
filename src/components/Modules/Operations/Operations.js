@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getResponse } from '../../Store/index';
 import { useHistory } from 'react-router-dom';
+import { CSSTransitionGroup } from 'react-transition-group';
 
 import './Operations.scss';
 import OperationsItem from './OperationsItem';
@@ -349,10 +351,18 @@ const Operations = () => {
 
   if (checkData) {
     return (
-      <div className="operations">
+      <CSSTransitionGroup
+      transitionName="homeTransition"
+      transitionAppear={true}
+      transitionAppearTimeout={300}>
+
+      <section className="operations">
         <div className="module__article">
           <h2>Operations</h2>
-          <button className="operations__form-button" onClick={() => {setExpandAll(!expandAll); setCurrentId("")}} type="button">Expand all</button>
+          <div>
+            <button className="operations__form-button" onClick={() => {setExpandAll(!expandAll); setCurrentId("")}} type="button">Expand all</button>
+            <Link to="/dashboard" className="operations__form-button operations__form-button-link" >Back</Link>
+          </div>
         </div>
 
         <form className="operations__form">
@@ -404,7 +414,9 @@ const Operations = () => {
           )}
         </div>
 
-      </div>
+      </section>
+
+      </CSSTransitionGroup>
     )
   } else return <Login/>
 }

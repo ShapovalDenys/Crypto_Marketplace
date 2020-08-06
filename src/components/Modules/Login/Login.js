@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getResponse, loginSuccess } from '../../Store/index';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import { CSSTransitionGroup } from 'react-transition-group';
 import './Login.scss';
 
 const Login = () => {
@@ -63,14 +63,26 @@ const Login = () => {
 
   if (dataFromServer.sessid) {
     return (
+      <CSSTransitionGroup
+      transitionName="homeTransition"
+      transitionAppear={true}
+      transitionAppearTimeout={300}>
+
       <div className="login">
         <h2 className="login__article login__article-success">Login Success</h2>
         <button onClick={() => isLogOut()} className="login__button login__button-logout">Logout</button>
       </div>
+      
+      </CSSTransitionGroup>
     )
   }
 
   return (
+    <CSSTransitionGroup
+    transitionName="homeTransition"
+    transitionAppear={true}
+    transitionAppearTimeout={300}>
+
     <form className="login" onSubmit={(e) => onClickLogin(e)}>
       <h2 className="login__article">Login</h2>
 
@@ -99,6 +111,8 @@ const Login = () => {
       }
 
     </form>
+
+    </CSSTransitionGroup>
   )
 }
 

@@ -7,6 +7,9 @@
   @include flexWebKit;
   -webkit-justify-content: space-between;
   justify-content: space-between;
+  & span {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 1150px) {

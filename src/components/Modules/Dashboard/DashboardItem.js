@@ -1,10 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DashboardItem.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { CSSTransitionGroup } from 'react-transition-group';
 
 const DashboardItem = ({ item }) => {
   const [onClickChange, setOnClickChange] = useState(false);
+  const [anim, setAnim] = useState(false);
+  const [onClick, setOnClick] = useState(false)
+
+  const click = () => {
+    setOnClick(!onClick);
+  }
+
+  useEffect(() => {
+    if (onClick) {
+      setOnClickChange(true)
+      setTimeout(() => {
+        setAnim(true)
+      }, 0)
+    }
+    if (!onClick) {
+      setAnim(false)
+      setTimeout(() => {
+        setOnClickChange(false)
+      }, 300)
+    }
+  }, [onClick])
 
 /*//////////////////////////////////////////*/
 
@@ -185,6 +207,11 @@ const DashboardItem = ({ item }) => {
 
 
   return (
+    <CSSTransitionGroup
+    transitionName="homeTransition"
+    transitionAppear={true}
+    transitionAppearTimeout={300}>
+
     <section className="dashboardItem">
       <div className="operations__transaction">
         <span>{item.number}</span>
@@ -194,12 +221,14 @@ const DashboardItem = ({ item }) => {
         <span>{modem}</span>
         <div className="dashboardItem__settings">
           <Link className="dashboardItem__settings-item" to="/statistic">Statistic</Link>
-          <button onClick={() => setOnClickChange(!onClickChange)} className="dashboardItem__settings-item" type="button">Change</button>
+          <button onClick={() => click()} className="dashboardItem__settings-item" type="button">Change</button>
+          <button className="dashboardItem__settings-item" type="button">Delete</button>
+          <button className="dashboardItem__settings-item" type="button">Personal ST</button>
         </div>
       </div>
       {onClickChange
       &&
-      <div>
+      <div className={anim ? "dashboardItem-animation-on" : "dashboardItem-animation-off"}>
 
         <form onSubmit={(e) => submitNewId(e)} className="dashboardItem___form">
           <h5>Change ID</h5>
@@ -266,6 +295,7 @@ const DashboardItem = ({ item }) => {
       </div>
       }
     </section>
+    </CSSTransitionGroup>
   );
 }
 

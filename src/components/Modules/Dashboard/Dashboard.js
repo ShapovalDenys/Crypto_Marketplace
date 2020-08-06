@@ -6,19 +6,23 @@ import Login from '../Login/Login';
 import DashboardItems from './DashboardItems';
 
 const Dashboard = () => {
-  const [checkData, setCheckData] = useState(false)
+  const [checkData, setCheckData] = useState("00");
   const reduxResponse = useSelector(getResponse)
   const localResponse = JSON.parse(localStorage.getItem('Response'));
 
   useEffect(() => {
     if ((reduxResponse !== null && reduxResponse.hasOwnProperty("sessid")) || (localResponse !== null && localResponse.hasOwnProperty("sessid"))) {
-      setCheckData(true)
+      setCheckData("1")
+    } else {
+      setCheckData("0")
     }
   }, [reduxResponse, localResponse])
 
   useEffect(() => {
     if (reduxResponse.hasOwnProperty("sessid") || localResponse.hasOwnProperty("sessid")) {
-      setCheckData(true)
+      setCheckData("1")
+    } else {
+      setCheckData("0")
     }
 
     let DATA = {};
@@ -33,9 +37,9 @@ const Dashboard = () => {
       console.log(response.json())
       const check = response.json()
       if (check.check) {
-        setCheckData(true)
+        setCheckData("1")
       } else {
-        setCheckData(false);
+        setCheckData("0");
       }
     })
     .catch(function (error) {
@@ -46,10 +50,12 @@ const Dashboard = () => {
 
   return (
     <>
-      {checkData
-      ?
+      {checkData === "1"
+      &&
       <DashboardItems />
-      :
+      }
+      {checkData === "0"
+      &&
       <Login/>
       }
     </>
